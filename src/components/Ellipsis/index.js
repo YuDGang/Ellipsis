@@ -29,7 +29,9 @@ export default props => {
 		_lines = props.lines !== 1 && props.lines,	// number or lines, default 1 line;
 		children,	// children Node
 		emptyText,	// default: null
-		_copyable = props.copyable	// copy function
+		_copyable = props.copyable,	// copy function
+		prefix,	// 前缀dom
+		suffix 	// 后缀dom
 	} = props;
 
 	const [hasCopy, setHasCopy] = useState(false);
@@ -130,12 +132,14 @@ export default props => {
 				maxWidth: widthLimit
 			}}
 		>
+			{prefix && prefix}
 			<div
 				ref={elementRef}
 				class={`overflow ${isWrap()} ${className || ""}`}
 			>
 				{children || emptyText}
 			</div>
+			{suffix && suffix}
 			{
 				inner && _copyable &&
 				<>

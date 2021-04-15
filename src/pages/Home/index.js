@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import Ellipsis from "@/components/Ellipsis";
 
 const dataSource = [
@@ -43,7 +43,16 @@ const columns = [
 
 	},
 	{
-		width: "300px"
+		width: "300px",
+		render: record => <Ellipsis
+			// widthLimit="100px"
+			emptyText="- -"
+			title={record.long}
+			copyable
+			prefix={null}
+			suffix={<Tag color="#f50" style={{marginLeft: "6px"}} >#f50</Tag>}
+		>
+		</Ellipsis>
 	},
 	{
 		title: "标识",
@@ -52,6 +61,7 @@ const columns = [
 			title={record.long}
 			emptyText="--"
 			copyable
+			suffix={<Tag color="#f50">#f50</Tag>}
 	  	>
 			<a target="_blank" href={"www.baidu.com"}>{record.long}</a>
 	  	</Ellipsis>
