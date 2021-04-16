@@ -8,6 +8,7 @@
 源码：https://github.com/YuDGang/ellipsis-react/tree/master/src/components/Ellipsis  
 
 ## 更新日志
+- 1.0.12 上一版本中误删了原有的对**自闭标签写法**的支持，现已恢复
 - 1.0.11 新增功能，**前缀、后缀**
 - 1.0.10 提升兼容性；
 - 1.0.9 优化svg引入方式，消除columns.fixed中的闪动；

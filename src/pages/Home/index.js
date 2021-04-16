@@ -69,7 +69,11 @@ const columns = [
 	}, {
 		title: "名称",
 		width: "300px",
-		dataIndex: "parentName"
+		render: record => <Ellipsis
+			title={record.long}
+			emptyText="--"
+			copyable
+		/>
 	}, {
 		title: "操作",
 		width: "300px",

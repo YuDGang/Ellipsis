@@ -137,7 +137,7 @@ export default props => {
 				ref={elementRef}
 				class={`overflow ${isWrap()} ${className || ""}`}
 			>
-				{children || emptyText}
+				{inner || emptyText}
 			</div>
 			{suffix && suffix}
 			{
