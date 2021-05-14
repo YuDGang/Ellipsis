@@ -8,6 +8,7 @@
 源码：https://github.com/YuDGang/ellipsis-react/tree/master/src/components/Ellipsis  
 
 ## 更新日志
+- 1.0.13 修复了**加载完成后、修改数据会导致Tooltip失效**的问题，修复了动画闪动
 - 1.0.12 上一版本中误删了原有的对**自闭标签写法**的支持，现已恢复
 - 1.0.11 新增功能，**前缀、后缀**
 - 1.0.10 提升兼容性；

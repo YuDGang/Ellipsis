@@ -5,7 +5,6 @@
  */
 
 import { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
 import { Popover, Tooltip } from "antd";
 import copy from "copy-to-clipboard";
 import CopySVG from "./Svg/CopySVG";
@@ -34,95 +33,86 @@ export default props => {
 		suffix 	// 后缀dom
 	} = props;
 
+	// allow visible or not state
+	const [flag, setFlag] = useState(true);
+	// visible[Tooltip/Popover] state
+	const [tipVisible, setTipVisible] = useState(false);
+	// copy animation state
 	const [hasCopy, setHasCopy] = useState(false);
-	const [copyAct, setCopyAct] = useState(false);
 
 	const elementRef = useRef();
 
 	useEffect(() => {
-		getFinalElement();
-	}, [elementRef.current]);
+		elementRef.current && isEllipsisActive(elementRef.current)
+			? setFlag(true)
+			: (
+				setFlag(false),
+				setTipVisible(false)
+			);
+	});
 
+	// original Node
+	const inner = typeof children === "string" ? children : (_popover ? content : title);
+
+	// for className
+	const getClassName = () => {
+		return `overflow ${_lines ? "ellipsis-wrap" : "ellipsis-nowrap"} ${className || ""}`;
+	};
+
+	// Tooltip.trigger(default 'hover') ==trigger==> onVisibleChange(visible)
+	const handleVisibleChange = (visible) => {
+		// const { onVisibleChange } = props;
+		// onVisibleChange(visible);
+		flag && setTipVisible(visible);
+	};
+
+	// onClick Copy Button
 	const handleCopy = (innerText) => {
 		copy(innerText);
 		setHasCopy(!hasCopy);
 		setTimeout(() => {
 			setHasCopy(false);
-			setCopyAct(!copyAct);
 		}, 1000);
-		setTimeout(() => {
-			setCopyAct(!copyAct);
-		}, 1280);
 	};
 
-	const addLines = (e) => {
-		Object.assign(e.style, {
-			"-webkit-line-clamp": _lines
-		});
+	const renderNode = () => {
+		const popoverNode = (
+			<Popover
+				{...props}
+				content={content || children}
+				visible={tipVisible}
+				onVisibleChange={(visible) => handleVisibleChange(visible)}
+			>
+				<div
+					className={className}
+					style={{ WebkitLineClamp: _lines }}
+					ref={elementRef}
+				>
+					{children || content}
+				</div>
+			</Popover>
+		);
+
+		const tooltipNode = (
+			<Tooltip
+				{...props}
+				title={title || children}
+				visible={tipVisible}
+				onVisibleChange={(visible) => handleVisibleChange(visible)}
+			>
+				<div
+					className={className}
+					style={{ WebkitLineClamp: _lines }}
+					ref={elementRef}
+				>
+					{children || title}
+				</div>
+			</Tooltip>
+		);
+
+		return _popover ? popoverNode : tooltipNode;
+
 	};
-
-	const handleVisibleChange = (visible, element) => {
-		const { onVisibleChange } = props;
-		onVisibleChange && onVisibleChange(visible);
-		const showIcon = () => {
-			// console.log(element);
-		};
-		const hideIcon = () => {
-
-		};
-		visible ? showIcon() : hideIcon();
-	};
-
-	const getFinalElement = () => {
-		// get original element
-		const element = elementRef.current;
-		if (!element) return;
-
-		// add lines or not
-		_lines && addLines(element);
-
-		// update element or not
-		if (isEllipsisActive(element)) {
-			let _element;
-			if (_popover) {
-				_element = <>
-					<Popover
-						{...props}
-						content={content || children}
-						onVisibleChange={(visible) => handleVisibleChange(visible, element)}
-					>
-						<div
-							className={element.className}
-							style={{ WebkitLineClamp: _lines }}
-						>
-							{children || content}
-						</div>
-					</Popover>
-				</>;
-			} else {
-				_element = <>
-					<Tooltip
-						{...props}
-						title={title || children}
-					>
-						<div
-							className={element.className}
-							style={{ WebkitLineClamp: _lines }}
-						>
-							{children || title}
-						</div>
-					</Tooltip>
-				</>;
-			}
-			_element && ReactDOM.render(_element, element);
-		};
-	};
-
-	const isWrap = () => {
-		return _lines ? "ellipsis-wrap" : "ellipsis-nowrap";
-	};
-
-	const inner = typeof children === "string" ? children : (_popover ? content : title);
 
 	return <>
 		<div
@@ -132,26 +122,29 @@ export default props => {
 				maxWidth: widthLimit
 			}}
 		>
+			{/* prefix */}
 			{prefix && prefix}
+			{/* content */}
 			<div
-				ref={elementRef}
-				class={`overflow ${isWrap()} ${className || ""}`}
+				class={getClassName()}
 			>
-				{inner || emptyText}
+				{inner ? renderNode() : emptyText}
 			</div>
+			{/* suffix */}
 			{suffix && suffix}
+			{/* copyable button */}
 			{
 				inner && _copyable &&
-				<>
-					<CopySVG
-						onClick={() => handleCopy(elementRef.current.innerText)}
-						className={`${!hasCopy ? "button" : "button-hidden"} ${copyAct ? "button-active" : ""}`}
-					/>
-					<TickSVG
-						className={hasCopy ? "button" : "button-hidden"}
-						onClick={() => handleCopy(elementRef.current.innerText)}
-					/>
-				</>
+				<div
+					class='svg-button'
+					onClick={() => handleCopy(elementRef.current.innerText)}
+				>
+					{
+						!hasCopy
+							? <CopySVG />
+							: <TickSVG />
+					}
+				</div>
 			}
 		</div>
 	</>;

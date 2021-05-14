@@ -1,6 +1,6 @@
 {
   "name": "@tntx/ellipsis",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "根据限宽截断文本并显示省略号，进而添加Tooltip/Popover悬浮效果以显示完整文本。旨在解决根据字符长度截断时不能很好的兼容中英文的问题。",
   "main": "lib/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "SYS_ENV=production webpack --progress --config build/webpack.prod.conf.js",
     "dll": "webpack --config ./build/webpack.dll.conf.js",
     "lint": "eslint --ext .js,.vue src",
-    "build2": "npx babel src/components/Ellipsis --out-dir lib --copy-files",
+    "build-module": "npx babel src/components/Ellipsis --out-dir lib --copy-files",
     "publish": "sh publish.sh"
   },
   "files": [
@@ -16,6 +16,8 @@
   ],
   "keywords": [
     "ant3",
+    "tntd",
+    "tntx",
     "according to the width",
     "tooltip",
     "popover",
@@ -84,7 +86,6 @@
     "react-router-dom": "^5.1.2"
   },
   "dependencies": {
-    "copy-to-clipboard": "^3.3.1",
-    "react-dom": "^16.11.0"
+    "copy-to-clipboard": "^3.3.1"
   }
 }
