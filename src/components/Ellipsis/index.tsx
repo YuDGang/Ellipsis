@@ -4,12 +4,6 @@
  * @Describe: 省略号组件
  */
 
-/*
- * @Author: 梁洪刚
- * @CreatDate: 2021-03-31 13:57:32
- * @Describe: 省略号组件
- */
-
 import { FC, useState, useEffect, useRef, ReactNode } from "react";
 import type { TooltipProps } from "antd/lib/tooltip";
 import type { PopoverProps } from "antd/lib/popover";
