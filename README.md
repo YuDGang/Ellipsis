@@ -37,7 +37,7 @@
 |  emptyText |   文本为空时显示的字符        |   string     |
 |  widthLimit |   指定溢出宽度值，缺省则自适应为父元素width |   number &#124; string      |
 | lines |  指定多行截断的最大行数，***可能在非Webkit内核浏览器中表现不稳定*** | number
-| copyable |  显示复制按钮，缺省值为不显示，文本为空时亦不显示 | |
+| copyable |  显示复制按钮，缺省值为不显示，文本为空时亦不显示 | boolean|
 | suffix | 后缀 | string &#124; ReactNode &#124; () => ReactNode|
 | prefix | 前缀 | string &#124; ReactNode &#124; () => ReactNode|
      

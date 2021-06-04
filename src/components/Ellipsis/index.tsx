@@ -10,7 +10,7 @@
  * @Describe: 省略号组件
  */
 
-import { FC, useState, useEffect, useRef } from "react";
+import { FC, useState, useEffect, useRef, ReactNode } from "react";
 import type { TooltipProps } from "antd/lib/tooltip";
 import type { PopoverProps } from "antd/lib/popover";
 import { Popover, Tooltip } from "antd";
@@ -19,7 +19,7 @@ import CopySVG from "./Svg/CopySVG";
 import TickSVG from "./Svg/TickSVG";
 import "./index.less";
 
-type BaseType = () => void | string | number;
+type BaseType = () => void | ReactNode | string | number;
 
 type Props = {
 	popover ?: Boolean, // `Popover` or `Tooltip` ?
