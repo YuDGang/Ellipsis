@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Table, Tag } from "antd";
-import Ellipsis from "@/components/Ellipsis";
+import Ellipsis from "Ellipsis";
 
 const dataMock1 = [
 	{

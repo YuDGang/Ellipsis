@@ -4,12 +4,37 @@
  * @Describe: 省略号组件
  */
 
-import { useState, useEffect, useRef } from "react";
+/*
+ * @Author: 梁洪刚
+ * @CreatDate: 2021-03-31 13:57:32
+ * @Describe: 省略号组件
+ */
+
+import { FC, useState, useEffect, useRef } from "react";
+import type { TooltipProps } from "antd/lib/tooltip";
+import type { PopoverProps } from "antd/lib/popover";
 import { Popover, Tooltip } from "antd";
 import copy from "copy-to-clipboard";
 import CopySVG from "./Svg/CopySVG";
 import TickSVG from "./Svg/TickSVG";
 import "./index.less";
+
+type BaseType = () => void | string | number;
+
+type Props = {
+	popover ?: Boolean, // `Popover` or `Tooltip` ?
+	title ?: BaseType,	// in most cases for `Tooltip`
+	content ?: BaseType, 	// in most cases for `Popover`
+	className?: BaseType,
+	style?:BaseType,
+	widthLimit?:number | string,	// width trigger value
+	lines?: number,	// number or lines, default 1 line;
+	children?: BaseType,	// children Node
+	emptyText?:()=>void | string | number,	// default: null
+	copyable?:Boolean,	// copy function
+	prefix?:any,	// 前缀dom
+	suffix ?:any	// 后缀dom
+}
 
 const tolerance = 2; // In px. Depends on the font you are using
 
@@ -17,21 +42,23 @@ const isEllipsisActive = (e) => {
 	return e.offsetWidth + tolerance < e.scrollWidth || e.offsetHeight < e.scrollHeight;
 };
 
-export default props => {
-	let {
-		_popover = props.Popover, // `Popover` or `Tooltip` ?
-		title,	// in most cases for `Tooltip`
-		content, 	// in most cases for `Popover`
+const Ellipsis: FC<TooltipProps & PopoverProps & Props> = (props) => {
+	const {
+		popover,
+		title,
+		content,
 		className,
 		style,
-		widthLimit,	// width trigger value
-		_lines = props.lines !== 1 && props.lines,	// number or lines, default 1 line;
-		children,	// children Node
-		emptyText,	// default: null
-		_copyable = props.copyable,	// copy function
-		prefix,	// 前缀dom
-		suffix 	// 后缀dom
+		widthLimit,
+		lines,
+		children,
+		emptyText,
+		copyable,
+		prefix,
+		suffix
 	} = props;
+
+	const _lines = lines !== 1 && lines;
 
 	// allow visible or not state
 	const [flag, setFlag] = useState(true);
@@ -52,7 +79,7 @@ export default props => {
 	});
 
 	// original Node
-	const inner = typeof children === "string" ? children : (_popover ? content : title);
+	const inner = typeof children === "string" ? children : (popover ? content : title);
 
 	// for className
 	const getClassName = () => {
@@ -110,13 +137,13 @@ export default props => {
 			</Tooltip>
 		);
 
-		return _popover ? popoverNode : tooltipNode;
+		return popover ? popoverNode : tooltipNode;
 
 	};
 
 	return <>
 		<div
-			class="tnt-ellipsis"
+			className="tnt-ellipsis"
 			style={{
 				...style,
 				maxWidth: widthLimit
@@ -126,7 +153,7 @@ export default props => {
 			{prefix && prefix}
 			{/* content */}
 			<div
-				class={getClassName()}
+				className={getClassName()}
 			>
 				{inner ? renderNode() : emptyText}
 			</div>
@@ -134,10 +161,10 @@ export default props => {
 			{suffix && suffix}
 			{/* copyable button */}
 			{
-				inner && _copyable &&
+				inner && copyable &&
 				<div
-					class='svg-button'
-					onClick={() => handleCopy(elementRef.current.innerText)}
+					className='svg-button'
+					onClick={() => handleCopy(elementRef.current?.innerText)}
 				>
 					{
 						!hasCopy
@@ -149,4 +176,6 @@ export default props => {
 		</div>
 	</>;
 };
+
+export default Ellipsis;
 

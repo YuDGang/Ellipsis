@@ -33,7 +33,7 @@
 
 |      参数         |       说明          |    类型        |
 |      ----         |        ----         |      ----      |
-|   Popover      |   指定溢出后悬停卡片的类型为 `Popover`，不使用则为默认值 `Tooltip`    |  |
+|   popover      |   指定溢出后悬停卡片的类型为 `Popover`，不使用则为默认值 `Tooltip`    |  |
 |  emptyText |   文本为空时显示的字符        |   string     |
 |  widthLimit |   指定溢出宽度值，缺省则自适应为父元素width |   number &#124; string      |
 | lines |  指定多行截断的最大行数，***可能在非Webkit内核浏览器中表现不稳定*** | number
@@ -52,7 +52,7 @@
         
 ## 如何使用  
 - 支持 `Popover` 和 `Tooltip` 两种悬停效果，[有什么区别?](https://3x.ant.design/components/popover-cn/#%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8 " Popover 和 Tooltip 的区别是，用户可以对浮层上的元素进行操作，因此它可以承载更复杂的内容，比如链接或按钮等。")；
-- 当选用 `Popover` 时，将需要展示的内容放在 `content` 里（如例1），并添加 `Popover` 属性；
+- 当选用 `Popover` 时，将需要展示的内容放在 `content` 里（如例1），并添加 `popover` 属性；
 - 当选用 `Tooltip` 时，将需要展示的内容放在 `title` （如例2）或包含在标签里（如例3）；
 - -----
 - 为什么不使用统一的属性传递展示的内容？  因为 antd3 中的 `Popover` 和 `Tooltip` 的属性是有区别的， `Popover` 用 `title` 作卡片标题， `content` 作卡片内容，而 `Tooltip` 仅用 `title` 作卡片内容（形似 Html 的 title 属性），不支持标题功能；具体请参考 [Ant3-Popover](https://3x.ant.design/components/popover-cn/) 和 [Ant3-Tooltip](https://3x.ant.design/components/tooltip-cn/)
@@ -74,7 +74,7 @@ export default () => {
   <>
 		{/* 例 1 */}
 		<Ellipsis
-			Popover
+			popover
 			widthLimit={100}
 			content="你看我有省略号吗？"
 		/>
@@ -100,7 +100,7 @@ export default () => {
 				suffix={
 					<Tag color="#f50">#f50</Tag>
 				}
-				preffix="*"
+				prefix="*"
 			>
 			</Ellipsis>
 		</div>
